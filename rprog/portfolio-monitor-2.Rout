@@ -110,24 +110,17 @@ tidyverse tidyquant
 +          from = past_horizon_long,
 +          to   = today) %>%
 +   drop_na()
-Warning messages:
-1: Problem with `mutate()` input `data..`.
-i x = 'ANZ.AZ', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "ANZ.AZ", env = <environment>, verbose = FALSE, : Unable to import "ANZ.AZ".
+Warning message:
+Problem with `mutate()` input `data..`.
+i x = 'JBL.AX', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "JBL.AX", env = <environment>, verbose = FALSE, : Unable to import "JBL.AX".
 argument "conn" is missing, with no default
- Removing ANZ.AZ.
-i Input `data..` is `purrr::map(...)`. 
-2: In UseMethod("as.list") :
-  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/ANZ.AZ?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=IlBPt7vKSgN)
-3: Problem with `mutate()` input `data..`.
-i x = 'FLT.AT', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "FLT.AT", env = <environment>, verbose = FALSE, : Unable to import "FLT.AT".
-argument "conn" is missing, with no default
- Removing FLT.AT.
+ Removing JBL.AX.
 i Input `data..` is `purrr::map(...)`. 
 > 
 > temp2 <- bind_rows(yf_data)
 > 
 > glimpse(temp2)
-Rows: 9,880
+Rows: 11,400
 Columns: 8
 $ symbol   <chr> "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX"...
 $ date     <date> 2018-03-14, 2018-03-15, 2018-03-16, 2018-03-19, 2018-03-2...
@@ -155,7 +148,8 @@ $ adjusted <dbl> 1.867896, 1.877574, 1.838861, 1.824344, 1.824344, 1.829183...
 +          macd_sell = ifelse(signChange == -2 & macd > 0, 1, 0)
 +   )
 Warning message:
-closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/FLT.AT?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=yKaOdWFP0Y4) 
+In for (i in ic) value[[i]] <- as.vector(x[, i]) :
+  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/JBL.AX?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=EcJDp8aTQld)
 > 
 > FANG_rsi <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -361,4 +355,4 @@ Call `lifecycle::last_warnings()` to see where this warning was generated.
 > 
 > proc.time()
    user  system elapsed 
-  13.15    2.26   32.84 
+  14.26    2.57   25.45 
