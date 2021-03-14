@@ -17,6 +17,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+[Previously saved workspace restored]
+
 > func_load_packages <- function(pkg){
 +   # function to install and require packages
 +   # https://gist.github.com/stevenworthington/3178163
@@ -78,6 +80,13 @@ Registered S3 method overwritten by 'quantmod':
 == Need to Learn tidyquant? ====================================================
 Business Science offers a 1-hour course - Learning Lab #9: Performance Analysis & Portfolio Optimization with tidyquant!
 </> Learn more at: https://university.business-science.io/p/learning-labs-pro </>
+
+Attaching package: 'tidyquant'
+
+The following object is masked _by_ '.GlobalEnv':
+
+    FANG
+
 tidyverse tidyquant 
      TRUE      TRUE 
 > 
@@ -90,7 +99,7 @@ tidyverse tidyquant
 > # obtain ticket list, my-list ----
 > 
 > print(getwd())
-[1] "c:/cloud/git-project/watchlist-tiny"
+[1] "C:/cloud/git-project/watchlist-tiny"
 > 
 > filtered_list <- read.csv("rprog/simon-all.csv", header = F)[, 1] %>% as.character()
 > 
@@ -101,20 +110,33 @@ tidyverse tidyquant
 +          from = past_horizon_long,
 +          to   = today) %>%
 +   drop_na()
+Warning messages:
+1: Problem with `mutate()` input `data..`.
+i x = 'ANZ.AZ', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "ANZ.AZ", env = <environment>, verbose = FALSE, : Unable to import "ANZ.AZ".
+argument "conn" is missing, with no default
+ Removing ANZ.AZ.
+i Input `data..` is `purrr::map(...)`. 
+2: In UseMethod("as.list") :
+  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/ANZ.AZ?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=fIA49WqIiUN)
+3: Problem with `mutate()` input `data..`.
+i x = 'FLT.AT', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "FLT.AT", env = <environment>, verbose = FALSE, : Unable to import "FLT.AT".
+argument "conn" is missing, with no default
+ Removing FLT.AT.
+i Input `data..` is `purrr::map(...)`. 
 > 
 > temp2 <- bind_rows(yf_data)
 > 
 > glimpse(temp2)
-Rows: 43,755
+Rows: 9,880
 Columns: 8
-$ symbol   <chr> "CBA.AX", "CBA.AX", "CBA.AX", "CBA.AX", "CBA.AX", "CBA.AX"...
+$ symbol   <chr> "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX"...
 $ date     <date> 2018-03-14, 2018-03-15, 2018-03-16, 2018-03-19, 2018-03-2...
-$ open     <dbl> 76.50, 77.00, 75.97, 75.66, 74.88, 75.41, 75.43, 74.10, 72...
-$ high     <dbl> 76.64, 77.00, 76.25, 75.98, 75.58, 75.83, 75.44, 74.16, 72...
-$ low      <dbl> 76.160, 75.650, 75.025, 74.890, 74.610, 75.150, 74.660, 72...
-$ close    <dbl> 76.55, 75.78, 75.34, 74.89, 75.19, 75.78, 74.87, 72.81, 72...
-$ volume   <dbl> 3068664, 4006228, 3791783, 2364077, 2354537, 1926293, 2530...
-$ adjusted <dbl> 66.41504, 65.74699, 65.36523, 64.97482, 65.23509, 65.74699...
+$ open     <dbl> 1.890, 1.925, 1.945, 1.925, 1.880, 1.895, 1.890, 1.880, 1....
+$ high     <dbl> 1.940, 1.945, 1.945, 1.930, 1.900, 1.900, 1.910, 1.910, 1....
+$ low      <dbl> 1.890, 1.900, 1.875, 1.875, 1.865, 1.870, 1.870, 1.870, 1....
+$ close    <dbl> 1.930, 1.940, 1.900, 1.885, 1.885, 1.890, 1.910, 1.910, 1....
+$ volume   <dbl> 1405287, 1890092, 1627416, 1222338, 708864, 905723, 602449...
+$ adjusted <dbl> 1.867896, 1.877574, 1.838861, 1.824344, 1.824344, 1.829183...
 > 
 > FANG_macd <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -132,6 +154,9 @@ $ adjusted <dbl> 66.41504, 65.74699, 65.36523, 64.97482, 65.23509, 65.74699...
 +          macd_buy = ifelse(signChange == 2 & macd < 0, 1, 0),
 +          macd_sell = ifelse(signChange == -2 & macd > 0, 1, 0)
 +   )
+Warning message:
+In c$message :
+  closing unused connection 3 (https://query2.finance.yahoo.com/v7/finance/download/FLT.AT?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=p5fecACgYBk)
 > 
 > FANG_rsi <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -216,21 +241,410 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
 > location_asset <- "_assets/"
 > files_asset <- list.files(location_asset)
 > sapply(paste0(location_asset, files_asset), file.remove)
- _assets/CBA.AX-medium-macd.png _assets/CBA.AX-medium-price.png 
-                           TRUE                            TRUE 
-  _assets/CBA.AX-medium-rsi.png   _assets/CBA.AX-short-macd.png 
-                           TRUE                            TRUE 
- _assets/CBA.AX-short-price.png    _assets/CBA.AX-short-rsi.png 
-                           TRUE                            TRUE 
+     _assets/^AORD-medium-macd.png     _assets/^AORD-medium-price.png 
+                              TRUE                               TRUE 
+      _assets/^AORD-medium-rsi.png       _assets/^AORD-short-macd.png 
+                              TRUE                               TRUE 
+     _assets/^AORD-short-price.png        _assets/^AORD-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/^DJI-medium-macd.png      _assets/^DJI-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/^DJI-medium-rsi.png        _assets/^DJI-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/^DJI-short-price.png         _assets/^DJI-short-rsi.png 
+                              TRUE                               TRUE 
+     _assets/^FTSE-medium-macd.png     _assets/^FTSE-medium-price.png 
+                              TRUE                               TRUE 
+      _assets/^FTSE-medium-rsi.png       _assets/^FTSE-short-macd.png 
+                              TRUE                               TRUE 
+     _assets/^FTSE-short-price.png        _assets/^FTSE-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/^GDAXI-medium-macd.png    _assets/^GDAXI-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/^GDAXI-medium-rsi.png      _assets/^GDAXI-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/^GDAXI-short-price.png       _assets/^GDAXI-short-rsi.png 
+                              TRUE                               TRUE 
+     _assets/^IXIC-medium-macd.png     _assets/^IXIC-medium-price.png 
+                              TRUE                               TRUE 
+      _assets/^IXIC-medium-rsi.png       _assets/^IXIC-short-macd.png 
+                              TRUE                               TRUE 
+     _assets/^IXIC-short-price.png        _assets/^IXIC-short-rsi.png 
+                              TRUE                               TRUE 
+     _assets/^N225-medium-macd.png     _assets/^N225-medium-price.png 
+                              TRUE                               TRUE 
+      _assets/^N225-medium-rsi.png       _assets/^N225-short-macd.png 
+                              TRUE                               TRUE 
+     _assets/^N225-short-price.png        _assets/^N225-short-rsi.png 
+                              TRUE                               TRUE 
+ _assets/000001.SS-medium-macd.png _assets/000001.SS-medium-price.png 
+                              TRUE                               TRUE 
+  _assets/000001.SS-medium-rsi.png   _assets/000001.SS-short-macd.png 
+                              TRUE                               TRUE 
+ _assets/000001.SS-short-price.png    _assets/000001.SS-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/A2M.AX-medium-macd.png    _assets/A2M.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/A2M.AX-medium-rsi.png      _assets/A2M.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/A2M.AX-short-price.png       _assets/A2M.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/AAPL-medium-macd.png      _assets/AAPL-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/AAPL-medium-rsi.png        _assets/AAPL-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/AAPL-short-price.png         _assets/AAPL-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/ALG.AX-medium-macd.png    _assets/ALG.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/ALG.AX-medium-rsi.png      _assets/ALG.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/ALG.AX-short-price.png       _assets/ALG.AX-short-rsi.png 
+                              TRUE                               TRUE 
+       _assets/AMD-medium-macd.png       _assets/AMD-medium-price.png 
+                              TRUE                               TRUE 
+        _assets/AMD-medium-rsi.png         _assets/AMD-short-macd.png 
+                              TRUE                               TRUE 
+       _assets/AMD-short-price.png          _assets/AMD-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/AMZN-medium-macd.png      _assets/AMZN-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/AMZN-medium-rsi.png        _assets/AMZN-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/AMZN-short-price.png         _assets/AMZN-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/APT.AX-medium-macd.png    _assets/APT.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/APT.AX-medium-rsi.png      _assets/APT.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/APT.AX-short-price.png       _assets/APT.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/ASX.AX-medium-macd.png    _assets/ASX.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/ASX.AX-medium-rsi.png      _assets/ASX.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/ASX.AX-short-price.png       _assets/ASX.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/AZJ.AX-medium-macd.png    _assets/AZJ.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/AZJ.AX-medium-rsi.png      _assets/AZJ.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/AZJ.AX-short-price.png       _assets/AZJ.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/BABA-medium-macd.png      _assets/BABA-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/BABA-medium-rsi.png        _assets/BABA-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/BABA-short-price.png         _assets/BABA-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/BHP.AX-medium-macd.png    _assets/BHP.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/BHP.AX-medium-rsi.png      _assets/BHP.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/BHP.AX-short-price.png       _assets/BHP.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/BIDU-medium-macd.png      _assets/BIDU-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/BIDU-medium-rsi.png        _assets/BIDU-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/BIDU-short-price.png         _assets/BIDU-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/BOQ.AX-medium-macd.png    _assets/BOQ.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/BOQ.AX-medium-rsi.png      _assets/BOQ.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/BOQ.AX-short-price.png       _assets/BOQ.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/BYND-medium-macd.png      _assets/BYND-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/BYND-medium-rsi.png        _assets/BYND-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/BYND-short-price.png         _assets/BYND-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/CBA.AX-medium-macd.png    _assets/CBA.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/CBA.AX-medium-rsi.png      _assets/CBA.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/CBA.AX-short-price.png       _assets/CBA.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/COL.AX-medium-macd.png    _assets/COL.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/COL.AX-medium-rsi.png      _assets/COL.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/COL.AX-short-price.png       _assets/COL.AX-short-rsi.png 
+                              TRUE                               TRUE 
+       _assets/CRM-medium-macd.png       _assets/CRM-medium-price.png 
+                              TRUE                               TRUE 
+        _assets/CRM-medium-rsi.png         _assets/CRM-short-macd.png 
+                              TRUE                               TRUE 
+       _assets/CRM-short-price.png          _assets/CRM-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/CSL.AX-medium-macd.png    _assets/CSL.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/CSL.AX-medium-rsi.png      _assets/CSL.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/CSL.AX-short-price.png       _assets/CSL.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/DXS.AX-medium-macd.png    _assets/DXS.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/DXS.AX-medium-rsi.png      _assets/DXS.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/DXS.AX-short-price.png       _assets/DXS.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/FMG.AX-medium-macd.png    _assets/FMG.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/FMG.AX-medium-rsi.png      _assets/FMG.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/FMG.AX-short-price.png       _assets/FMG.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/GMG.AX-medium-macd.png    _assets/GMG.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/GMG.AX-medium-rsi.png      _assets/GMG.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/GMG.AX-short-price.png       _assets/GMG.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/GOOG-medium-macd.png      _assets/GOOG-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/GOOG-medium-rsi.png        _assets/GOOG-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/GOOG-short-price.png         _assets/GOOG-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/JBH.AX-medium-macd.png    _assets/JBH.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/JBH.AX-medium-rsi.png      _assets/JBH.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/JBH.AX-short-price.png       _assets/JBH.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/KGN.AX-medium-macd.png    _assets/KGN.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/KGN.AX-medium-rsi.png      _assets/KGN.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/KGN.AX-short-price.png       _assets/KGN.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/KTD.AX-medium-macd.png    _assets/KTD.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/KTD.AX-medium-rsi.png      _assets/KTD.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/KTD.AX-short-price.png       _assets/KTD.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/MQG.AX-medium-macd.png    _assets/MQG.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/MQG.AX-medium-rsi.png      _assets/MQG.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/MQG.AX-short-price.png       _assets/MQG.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/MSFT-medium-macd.png      _assets/MSFT-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/MSFT-medium-rsi.png        _assets/MSFT-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/MSFT-short-price.png         _assets/MSFT-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/NAB.AX-medium-macd.png    _assets/NAB.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/NAB.AX-medium-rsi.png      _assets/NAB.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/NAB.AX-short-price.png       _assets/NAB.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/NCM.AX-medium-macd.png    _assets/NCM.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/NCM.AX-medium-rsi.png      _assets/NCM.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/NCM.AX-short-price.png       _assets/NCM.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/NFLX-medium-macd.png      _assets/NFLX-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/NFLX-medium-rsi.png        _assets/NFLX-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/NFLX-short-price.png         _assets/NFLX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/NVDA-medium-macd.png      _assets/NVDA-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/NVDA-medium-rsi.png        _assets/NVDA-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/NVDA-short-price.png         _assets/NVDA-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/NXT.AX-medium-macd.png    _assets/NXT.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/NXT.AX-medium-rsi.png      _assets/NXT.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/NXT.AX-short-price.png       _assets/NXT.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/ORI.AX-medium-macd.png    _assets/ORI.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/ORI.AX-medium-rsi.png      _assets/ORI.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/ORI.AX-short-price.png       _assets/ORI.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/PDL.AX-medium-macd.png    _assets/PDL.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/PDL.AX-medium-rsi.png      _assets/PDL.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/PDL.AX-short-price.png       _assets/PDL.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/PYPL-medium-macd.png      _assets/PYPL-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/PYPL-medium-rsi.png        _assets/PYPL-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/PYPL-short-price.png         _assets/PYPL-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/RHC.AX-medium-macd.png    _assets/RHC.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/RHC.AX-medium-rsi.png      _assets/RHC.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/RHC.AX-short-price.png       _assets/RHC.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/RIO.AX-medium-macd.png    _assets/RIO.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/RIO.AX-medium-rsi.png      _assets/RIO.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/RIO.AX-short-price.png       _assets/RIO.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/RMD.AX-medium-macd.png    _assets/RMD.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/RMD.AX-medium-rsi.png      _assets/RMD.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/RMD.AX-short-price.png       _assets/RMD.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/SINA-medium-macd.png      _assets/SINA-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/SINA-medium-rsi.png        _assets/SINA-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/SINA-short-price.png         _assets/SINA-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/SNOW-medium-macd.png      _assets/SNOW-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/SNOW-medium-rsi.png        _assets/SNOW-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/SNOW-short-price.png         _assets/SNOW-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/SPT.AX-medium-macd.png    _assets/SPT.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/SPT.AX-medium-rsi.png      _assets/SPT.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/SPT.AX-short-price.png       _assets/SPT.AX-short-rsi.png 
+                              TRUE                               TRUE 
+        _assets/SQ-medium-macd.png        _assets/SQ-medium-price.png 
+                              TRUE                               TRUE 
+         _assets/SQ-medium-rsi.png          _assets/SQ-short-macd.png 
+                              TRUE                               TRUE 
+        _assets/SQ-short-price.png           _assets/SQ-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/SYD.AX-medium-macd.png    _assets/SYD.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/SYD.AX-medium-rsi.png      _assets/SYD.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/SYD.AX-short-price.png       _assets/SYD.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/TCL.AX-medium-macd.png    _assets/TCL.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/TCL.AX-medium-rsi.png      _assets/TCL.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/TCL.AX-short-price.png       _assets/TCL.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/TLS.AX-medium-macd.png    _assets/TLS.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/TLS.AX-medium-rsi.png      _assets/TLS.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/TLS.AX-short-price.png       _assets/TLS.AX-short-rsi.png 
+                              TRUE                               TRUE 
+      _assets/TSLA-medium-macd.png      _assets/TSLA-medium-price.png 
+                              TRUE                               TRUE 
+       _assets/TSLA-medium-rsi.png        _assets/TSLA-short-macd.png 
+                              TRUE                               TRUE 
+      _assets/TSLA-short-price.png         _assets/TSLA-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/VCX.AX-medium-macd.png    _assets/VCX.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/VCX.AX-medium-rsi.png      _assets/VCX.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/VCX.AX-short-price.png       _assets/VCX.AX-short-rsi.png 
+                              TRUE                               TRUE 
+   _assets/VDHG.AX-medium-macd.png   _assets/VDHG.AX-medium-price.png 
+                              TRUE                               TRUE 
+    _assets/VDHG.AX-medium-rsi.png     _assets/VDHG.AX-short-macd.png 
+                              TRUE                               TRUE 
+   _assets/VDHG.AX-short-price.png      _assets/VDHG.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/WBC.AX-medium-macd.png    _assets/WBC.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/WBC.AX-medium-rsi.png      _assets/WBC.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/WBC.AX-short-price.png       _assets/WBC.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/WES.AX-medium-macd.png    _assets/WES.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/WES.AX-medium-rsi.png      _assets/WES.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/WES.AX-short-price.png       _assets/WES.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/WOW.AX-medium-macd.png    _assets/WOW.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/WOW.AX-medium-rsi.png      _assets/WOW.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/WOW.AX-short-price.png       _assets/WOW.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/XRO.AX-medium-macd.png    _assets/XRO.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/XRO.AX-medium-rsi.png      _assets/XRO.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/XRO.AX-short-price.png       _assets/XRO.AX-short-rsi.png 
+                              TRUE                               TRUE 
+    _assets/Z1P.AX-medium-macd.png    _assets/Z1P.AX-medium-price.png 
+                              TRUE                               TRUE 
+     _assets/Z1P.AX-medium-rsi.png      _assets/Z1P.AX-short-macd.png 
+                              TRUE                               TRUE 
+    _assets/Z1P.AX-short-price.png       _assets/Z1P.AX-short-rsi.png 
+                              TRUE                               TRUE 
+        _assets/ZM-medium-macd.png        _assets/ZM-medium-price.png 
+                              TRUE                               TRUE 
+         _assets/ZM-medium-rsi.png          _assets/ZM-short-macd.png 
+                              TRUE                               TRUE 
+        _assets/ZM-short-price.png           _assets/ZM-short-rsi.png 
+                              TRUE                               TRUE 
 > 
 > location_project <- "_projects/"
 > files_project <- list.files(location_project)
 > sapply(paste0(location_project, files_project), file.remove)
-_projects/ 
-     FALSE 
-Warning message:
-In FUN(X[[i]], ...) :
-  cannot remove file '_projects/', reason 'Permission denied'
+    _projects/^AORD.md      _projects/^DJI.md     _projects/^FTSE.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/^GDAXI.md     _projects/^IXIC.md     _projects/^N225.md 
+                  TRUE                   TRUE                   TRUE 
+_projects/000001.SS.md    _projects/A2M.AX.md      _projects/AAPL.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/ALG.AX.md       _projects/AMD.md      _projects/AMZN.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/APT.AX.md    _projects/ASX.AX.md    _projects/AZJ.AX.md 
+                  TRUE                   TRUE                   TRUE 
+     _projects/BABA.md    _projects/BHP.AX.md      _projects/BIDU.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/BOQ.AX.md      _projects/BYND.md    _projects/CBA.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/COL.AX.md       _projects/CRM.md    _projects/CSL.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/DXS.AX.md    _projects/FMG.AX.md    _projects/GMG.AX.md 
+                  TRUE                   TRUE                   TRUE 
+     _projects/GOOG.md    _projects/JBH.AX.md    _projects/KGN.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/KTD.AX.md    _projects/MQG.AX.md      _projects/MSFT.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/NAB.AX.md    _projects/NCM.AX.md      _projects/NFLX.md 
+                  TRUE                   TRUE                   TRUE 
+     _projects/NVDA.md    _projects/NXT.AX.md    _projects/ORI.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/PDL.AX.md      _projects/PYPL.md    _projects/RHC.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/RIO.AX.md    _projects/RMD.AX.md      _projects/SINA.md 
+                  TRUE                   TRUE                   TRUE 
+     _projects/SNOW.md    _projects/SPT.AX.md        _projects/SQ.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/SYD.AX.md    _projects/TCL.AX.md    _projects/TLS.AX.md 
+                  TRUE                   TRUE                   TRUE 
+     _projects/TSLA.md    _projects/VCX.AX.md   _projects/VDHG.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/WBC.AX.md    _projects/WES.AX.md    _projects/WOW.AX.md 
+                  TRUE                   TRUE                   TRUE 
+   _projects/XRO.AX.md    _projects/Z1P.AX.md        _projects/ZM.md 
+                  TRUE                   TRUE                   TRUE 
 > 
 > for (ticker in filtered_list) {
 +   export_pictures(ticker, location_asset)
@@ -239,16 +653,13 @@ In FUN(X[[i]], ...) :
 +   temp <- str_replace_all(temp, "ticker", ticker)
 +   readr::write_lines(temp, path = paste0(location_project, ticker, ".md"))
 + }
-Warning messages:
-1: The `path` argument of `write_lines()` is deprecated as of readr 1.4.0.
+Warning message:
+The `path` argument of `write_lines()` is deprecated as of readr 1.4.0.
 Please use the `file` argument instead.
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_warnings()` to see where this warning was generated. 
-2: Removed 25 row(s) containing missing values (geom_path). 
-3: Removed 33 row(s) containing missing values (geom_path). 
-4: Removed 14 row(s) containing missing values (geom_path). 
 > 
 > 
 > proc.time()
    user  system elapsed 
-  49.45    8.48   83.85 
+  12.78    2.46   30.09 

@@ -10,6 +10,3 @@ Gemfile.lock
 
 # Log Files
 *.log
-
-pull.sh
-commit.sh

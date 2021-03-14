@@ -1,1 +1,1 @@
-"C:\Program Files\R\R-4.0.3\bin\R.exe" --vanilla CMD BATCH "_rproj\portfolio-monitor-2.R"
+"C:\Program Files\R\R-4.0.3\bin\R.exe" --vanilla CMD BATCH "rprog\portfolio-monitor-2.R"
