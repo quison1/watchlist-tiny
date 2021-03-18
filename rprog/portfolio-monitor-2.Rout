@@ -120,16 +120,16 @@ i Input `data..` is `purrr::map(...)`.
 > temp2 <- bind_rows(yf_data)
 > 
 > glimpse(temp2)
-Rows: 11,400
+Rows: 11,412
 Columns: 8
 $ symbol   <chr> "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX"...
-$ date     <date> 2018-03-14, 2018-03-15, 2018-03-16, 2018-03-19, 2018-03-2...
-$ open     <dbl> 1.890, 1.925, 1.945, 1.925, 1.880, 1.895, 1.890, 1.880, 1....
-$ high     <dbl> 1.940, 1.945, 1.945, 1.930, 1.900, 1.900, 1.910, 1.910, 1....
-$ low      <dbl> 1.890, 1.900, 1.875, 1.875, 1.865, 1.870, 1.870, 1.870, 1....
-$ close    <dbl> 1.930, 1.940, 1.900, 1.885, 1.885, 1.890, 1.910, 1.910, 1....
-$ volume   <dbl> 1405287, 1890092, 1627416, 1222338, 708864, 905723, 602449...
-$ adjusted <dbl> 1.867896, 1.877574, 1.838861, 1.824344, 1.824344, 1.829183...
+$ date     <date> 2018-03-19, 2018-03-20, 2018-03-21, 2018-03-22, 2018-03-2...
+$ open     <dbl> 1.925, 1.880, 1.895, 1.890, 1.880, 1.910, 1.905, 1.915, 1....
+$ high     <dbl> 1.930, 1.900, 1.900, 1.910, 1.910, 1.910, 1.925, 1.925, 1....
+$ low      <dbl> 1.875, 1.865, 1.870, 1.870, 1.870, 1.880, 1.900, 1.850, 1....
+$ close    <dbl> 1.885, 1.885, 1.890, 1.910, 1.910, 1.895, 1.920, 1.865, 1....
+$ volume   <dbl> 1222338, 708864, 905723, 602449, 1067348, 604633, 771379, ...
+$ adjusted <dbl> 1.824344, 1.824344, 1.829183, 1.848540, 1.848540, 1.834022...
 > 
 > FANG_macd <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -148,8 +148,8 @@ $ adjusted <dbl> 1.867896, 1.877574, 1.838861, 1.824344, 1.824344, 1.829183...
 +          macd_sell = ifelse(signChange == -2 & macd > 0, 1, 0)
 +   )
 Warning message:
-In for (i in ic) value[[i]] <- as.vector(x[, i]) :
-  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/JBL.AX?period1=1520985600&period2=1615680000&interval=1d&events=history&crumb=EcJDp8aTQld)
+In for (j in pseq) { :
+  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/JBL.AX?period1=1521331200&period2=1616025600&interval=1d&events=history&crumb=3eI.hyko8kc)
 > 
 > FANG_rsi <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -246,11 +246,11 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
                             TRUE                             TRUE 
   _assets/ALG.AX-short-price.png     _assets/ALG.AX-short-rsi.png 
                             TRUE                             TRUE 
-  _assets/ANZ.AZ-medium-macd.png  _assets/ANZ.AZ-medium-price.png 
+  _assets/ANZ.AX-medium-macd.png  _assets/ANZ.AX-medium-price.png 
                             TRUE                             TRUE 
-   _assets/ANZ.AZ-medium-rsi.png    _assets/ANZ.AZ-short-macd.png 
+   _assets/ANZ.AX-medium-rsi.png    _assets/ANZ.AX-short-macd.png 
                             TRUE                             TRUE 
-  _assets/ANZ.AZ-short-price.png     _assets/ANZ.AZ-short-rsi.png 
+  _assets/ANZ.AX-short-price.png     _assets/ANZ.AX-short-rsi.png 
                             TRUE                             TRUE 
   _assets/AZJ.AX-medium-macd.png  _assets/AZJ.AX-medium-price.png 
                             TRUE                             TRUE 
@@ -270,11 +270,17 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
                             TRUE                             TRUE 
   _assets/CAN.AX-short-price.png     _assets/CAN.AX-short-rsi.png 
                             TRUE                             TRUE 
-  _assets/FLT.AT-medium-macd.png  _assets/FLT.AT-medium-price.png 
+  _assets/FLT.AX-medium-macd.png  _assets/FLT.AX-medium-price.png 
                             TRUE                             TRUE 
-   _assets/FLT.AT-medium-rsi.png    _assets/FLT.AT-short-macd.png 
+   _assets/FLT.AX-medium-rsi.png    _assets/FLT.AX-short-macd.png 
                             TRUE                             TRUE 
-  _assets/FLT.AT-short-price.png     _assets/FLT.AT-short-rsi.png 
+  _assets/FLT.AX-short-price.png     _assets/FLT.AX-short-rsi.png 
+                            TRUE                             TRUE 
+  _assets/JBL.AX-medium-macd.png  _assets/JBL.AX-medium-price.png 
+                            TRUE                             TRUE 
+   _assets/JBL.AX-medium-rsi.png    _assets/JBL.AX-short-macd.png 
+                            TRUE                             TRUE 
+  _assets/JBL.AX-short-price.png     _assets/JBL.AX-short-rsi.png 
                             TRUE                             TRUE 
   _assets/LVT.AX-medium-macd.png  _assets/LVT.AX-medium-price.png 
                             TRUE                             TRUE 
@@ -328,16 +334,18 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
 > location_project <- "_projects/"
 > files_project <- list.files(location_project)
 > sapply(paste0(location_project, files_project), file.remove)
- _projects/A2M.AX.md  _projects/ALG.AX.md  _projects/ANZ.AZ.md 
+ _projects/A2M.AX.md  _projects/ALG.AX.md  _projects/ANZ.AX.md 
                 TRUE                 TRUE                 TRUE 
  _projects/AZJ.AX.md  _projects/BHP.AX.md  _projects/CAN.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/FLT.AT.md  _projects/LVT.AX.md  _projects/QAN.AX.md 
+ _projects/FLT.AX.md  _projects/JBL.AX.md  _projects/LVT.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/TNT.AX.md  _projects/VAS.AX.md _projects/VDHG.AX.md 
+ _projects/QAN.AX.md  _projects/TNT.AX.md  _projects/VAS.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/VGS.AX.md  _projects/WPL.AX.md  _projects/XRO.AX.md 
+_projects/VDHG.AX.md  _projects/VGS.AX.md  _projects/WPL.AX.md 
                 TRUE                 TRUE                 TRUE 
+ _projects/XRO.AX.md 
+                TRUE 
 > 
 > for (ticker in filtered_list) {
 +   export_pictures(ticker, location_asset)
@@ -355,4 +363,4 @@ Call `lifecycle::last_warnings()` to see where this warning was generated.
 > 
 > proc.time()
    user  system elapsed 
-  14.26    2.57   25.45 
+  15.25    3.01   30.09 
