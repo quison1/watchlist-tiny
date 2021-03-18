@@ -110,17 +110,11 @@ tidyverse tidyquant
 +          from = past_horizon_long,
 +          to   = today) %>%
 +   drop_na()
-Warning message:
-Problem with `mutate()` input `data..`.
-i x = 'JBL.AX', get = 'stock.prices': Error in getSymbols.yahoo(Symbols = "JBL.AX", env = <environment>, verbose = FALSE, : Unable to import "JBL.AX".
-argument "conn" is missing, with no default
- Removing JBL.AX.
-i Input `data..` is `purrr::map(...)`. 
 > 
 > temp2 <- bind_rows(yf_data)
 > 
 > glimpse(temp2)
-Rows: 11,412
+Rows: 13,522
 Columns: 8
 $ symbol   <chr> "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX"...
 $ date     <date> 2018-03-19, 2018-03-20, 2018-03-21, 2018-03-22, 2018-03-2...
@@ -147,9 +141,6 @@ $ adjusted <dbl> 1.824344, 1.824344, 1.829183, 1.848540, 1.848540, 1.834022...
 +          macd_buy = ifelse(signChange == 2 & macd < 0, 1, 0),
 +          macd_sell = ifelse(signChange == -2 & macd > 0, 1, 0)
 +   )
-Warning message:
-In for (j in pseq) { :
-  closing unused connection 3 (https://query1.finance.yahoo.com/v7/finance/download/JBL.AX?period1=1521331200&period2=1616025600&interval=1d&events=history&crumb=3eI.hyko8kc)
 > 
 > FANG_rsi <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -363,4 +354,4 @@ Call `lifecycle::last_warnings()` to see where this warning was generated.
 > 
 > proc.time()
    user  system elapsed 
-  15.25    3.01   30.09 
+  16.09    3.12   28.06 
