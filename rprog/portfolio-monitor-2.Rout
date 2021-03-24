@@ -114,16 +114,16 @@ tidyverse tidyquant
 > temp2 <- bind_rows(yf_data)
 > 
 > glimpse(temp2)
-Rows: 13,522
+Rows: 13,512
 Columns: 8
 $ symbol   <chr> "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX", "ALG.AX"...
-$ date     <date> 2018-03-19, 2018-03-20, 2018-03-21, 2018-03-22, 2018-03-2...
-$ open     <dbl> 1.925, 1.880, 1.895, 1.890, 1.880, 1.910, 1.905, 1.915, 1....
-$ high     <dbl> 1.930, 1.900, 1.900, 1.910, 1.910, 1.910, 1.925, 1.925, 1....
-$ low      <dbl> 1.875, 1.865, 1.870, 1.870, 1.870, 1.880, 1.900, 1.850, 1....
-$ close    <dbl> 1.885, 1.885, 1.890, 1.910, 1.910, 1.895, 1.920, 1.865, 1....
-$ volume   <dbl> 1222338, 708864, 905723, 602449, 1067348, 604633, 771379, ...
-$ adjusted <dbl> 1.824344, 1.824344, 1.829183, 1.848540, 1.848540, 1.834022...
+$ date     <date> 2018-03-26, 2018-03-27, 2018-03-28, 2018-03-29, 2018-04-0...
+$ open     <dbl> 1.910, 1.905, 1.915, 1.860, 1.830, 1.850, 1.850, 1.825, 1....
+$ high     <dbl> 1.9100, 1.9250, 1.9250, 1.8650, 1.8800, 1.8600, 1.8600, 1....
+$ low      <dbl> 1.880, 1.900, 1.850, 1.830, 1.830, 1.832, 1.830, 1.815, 1....
+$ close    <dbl> 1.895, 1.920, 1.865, 1.845, 1.840, 1.850, 1.835, 1.860, 1....
+$ volume   <dbl> 604633, 771379, 1280888, 941069, 1036936, 1432225, 574567,...
+$ adjusted <dbl> 1.834022, 1.858218, 1.804988, 1.785631, 1.780792, 1.790470...
 > 
 > FANG_macd <- temp2 %>% # yf_data %>% drop_na() %>%
 +   group_by(symbol) %>%
@@ -261,17 +261,23 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
                             TRUE                             TRUE 
   _assets/CAN.AX-short-price.png     _assets/CAN.AX-short-rsi.png 
                             TRUE                             TRUE 
+  _assets/COL.AX-medium-macd.png  _assets/COL.AX-medium-price.png 
+                            TRUE                             TRUE 
+   _assets/COL.AX-medium-rsi.png    _assets/COL.AX-short-macd.png 
+                            TRUE                             TRUE 
+  _assets/COL.AX-short-price.png     _assets/COL.AX-short-rsi.png 
+                            TRUE                             TRUE 
   _assets/FLT.AX-medium-macd.png  _assets/FLT.AX-medium-price.png 
                             TRUE                             TRUE 
    _assets/FLT.AX-medium-rsi.png    _assets/FLT.AX-short-macd.png 
                             TRUE                             TRUE 
   _assets/FLT.AX-short-price.png     _assets/FLT.AX-short-rsi.png 
                             TRUE                             TRUE 
-  _assets/JBL.AX-medium-macd.png  _assets/JBL.AX-medium-price.png 
+  _assets/JBH.AX-medium-macd.png  _assets/JBH.AX-medium-price.png 
                             TRUE                             TRUE 
-   _assets/JBL.AX-medium-rsi.png    _assets/JBL.AX-short-macd.png 
+   _assets/JBH.AX-medium-rsi.png    _assets/JBH.AX-short-macd.png 
                             TRUE                             TRUE 
-  _assets/JBL.AX-short-price.png     _assets/JBL.AX-short-rsi.png 
+  _assets/JBH.AX-short-price.png     _assets/JBH.AX-short-rsi.png 
                             TRUE                             TRUE 
   _assets/LVT.AX-medium-macd.png  _assets/LVT.AX-medium-price.png 
                             TRUE                             TRUE 
@@ -309,6 +315,12 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
                             TRUE                             TRUE 
   _assets/VGS.AX-short-price.png     _assets/VGS.AX-short-rsi.png 
                             TRUE                             TRUE 
+  _assets/WOW.AX-medium-macd.png  _assets/WOW.AX-medium-price.png 
+                            TRUE                             TRUE 
+   _assets/WOW.AX-medium-rsi.png    _assets/WOW.AX-short-macd.png 
+                            TRUE                             TRUE 
+  _assets/WOW.AX-short-price.png     _assets/WOW.AX-short-rsi.png 
+                            TRUE                             TRUE 
   _assets/WPL.AX-medium-macd.png  _assets/WPL.AX-medium-price.png 
                             TRUE                             TRUE 
    _assets/WPL.AX-medium-rsi.png    _assets/WPL.AX-short-macd.png 
@@ -329,14 +341,14 @@ Joining, by = c("symbol", "date", "open", "high", "low", "close", "volume", "adj
                 TRUE                 TRUE                 TRUE 
  _projects/AZJ.AX.md  _projects/BHP.AX.md  _projects/CAN.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/FLT.AX.md  _projects/JBL.AX.md  _projects/LVT.AX.md 
+ _projects/COL.AX.md  _projects/FLT.AX.md  _projects/JBH.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/QAN.AX.md  _projects/TNT.AX.md  _projects/VAS.AX.md 
+ _projects/LVT.AX.md  _projects/QAN.AX.md  _projects/TNT.AX.md 
                 TRUE                 TRUE                 TRUE 
-_projects/VDHG.AX.md  _projects/VGS.AX.md  _projects/WPL.AX.md 
+ _projects/VAS.AX.md _projects/VDHG.AX.md  _projects/VGS.AX.md 
                 TRUE                 TRUE                 TRUE 
- _projects/XRO.AX.md 
-                TRUE 
+ _projects/WOW.AX.md  _projects/WPL.AX.md  _projects/XRO.AX.md 
+                TRUE                 TRUE                 TRUE 
 > 
 > for (ticker in filtered_list) {
 +   export_pictures(ticker, location_asset)
@@ -354,4 +366,4 @@ Call `lifecycle::last_warnings()` to see where this warning was generated.
 > 
 > proc.time()
    user  system elapsed 
-  16.09    3.12   28.06 
+  16.89    3.18   27.82 
